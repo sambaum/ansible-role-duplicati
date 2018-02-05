@@ -1,0 +1,5 @@
+---
+# defaults file for ansible-role-duplicati
+
+duplicati_deb: https://updates.duplicati.com/beta/duplicati_2.0.2.1-1_all.deb
+duplicati_port: 8200

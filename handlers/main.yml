@@ -1,0 +1,5 @@
+---
+- name: restart duplicati
+  systemd:
+    state: restarted
+    name: duplicati.service

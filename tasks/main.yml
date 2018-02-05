@@ -1,0 +1,29 @@
+---
+- name: installing dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - mono-runtime
+
+- name: Install Duplicati
+  apt:
+    deb: "{{ duplicati_deb }}"
+
+- name: Enable service duplicati.service
+  systemd:
+    name: duplicati.service
+    enabled: yes
+    masked: no
+
+- name: Make sure duplicati.service is running
+  systemd:
+    state: started
+    name: duplicati.service
+
+- name: insert/update "DAEMON_OPTS" configuration block in /etc/default/duplicati
+  blockinfile:
+    path: /etc/default/duplicati
+    block: |
+      DAEMON_OPTS="--webservice-port={{ duplicati_port }} --webservice-interface=any"
+  notify: restart duplicati
